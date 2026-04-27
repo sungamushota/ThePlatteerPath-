@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Environment files
+.env
+.env.local
+.env*.local
+
+# Next.js
+web/.next/
+web/out/
+
+# Build
+web/build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+
+# Debug
+*.log
+npm-debug.log*
+
+# Misc
+*.pem
+.vercel
