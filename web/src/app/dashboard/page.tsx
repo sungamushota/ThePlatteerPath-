@@ -128,10 +128,10 @@ export default async function DashboardPage() {
   return (
     <div className="min-h-screen bg-cream">
       {/* Header */}
-      <header className="sticky top-0 z-40 border-b border-stone-200 bg-white/90 backdrop-blur-md shadow-sm">
+      <header className="sticky top-0 z-40 border-b border-stone-800 bg-stone-900/95 backdrop-blur-md shadow-lg">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
           <div className="flex items-center gap-6">
-            <span className="font-display text-lg font-semibold tracking-tight text-stone-900">
+            <span className="font-display text-lg font-semibold tracking-tight text-white">
               The PlatterPath
             </span>
             <div className="hidden items-center gap-1 sm:flex">
@@ -139,29 +139,29 @@ export default async function DashboardPage() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="bg-gold-50 text-gold-700"
+                  className="bg-gold-500/20 text-gold-300 hover:bg-gold-500/30 hover:text-gold-200"
                 >
                   Dashboard
                 </Button>
               </Link>
               <Link href="/inquiries">
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size="sm" className="text-stone-300 hover:text-white hover:bg-stone-800">
                   Inquiries
                 </Button>
               </Link>
               <Link href="/clients">
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size="sm" className="text-stone-300 hover:text-white hover:bg-stone-800">
                   Clients
                 </Button>
               </Link>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <span className="hidden text-sm text-stone-600 sm:inline">
+            <span className="hidden text-sm text-stone-400 sm:inline">
               {operator.business_name}
             </span>
             <Link href="/settings">
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" className="text-stone-300 hover:text-white hover:bg-stone-800">
                 <Settings className="h-4 w-4" />
               </Button>
             </Link>
@@ -213,7 +213,7 @@ export default async function DashboardPage() {
           {statCards.map((stat) => (
             <Link key={stat.label} href={stat.href}>
               <div
-                className={`rounded-2xl border border-stone-100 bg-white p-6 transition-all duration-200 hover:shadow-lg hover:shadow-stone-100 hover:ring-2 ${stat.ring}`}
+                className={`rounded-2xl border border-stone-200 bg-white p-6 shadow-sm transition-all duration-200 hover:shadow-lg hover:shadow-stone-200/50 hover:ring-2 ${stat.ring}`}
               >
                 <div className="flex items-center gap-4">
                   <div
@@ -234,7 +234,7 @@ export default async function DashboardPage() {
         </div>
 
         {/* Recent Inquiries */}
-        <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
+        <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-md">
           <div className="flex items-center justify-between border-b border-stone-100 px-6 py-5">
             <h2 className="font-display text-lg font-semibold text-stone-900">
               Recent Inquiries

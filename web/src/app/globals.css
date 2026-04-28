@@ -13,14 +13,14 @@
   --color-gold-900: #432F17;
   --color-gold-950: #2A1B0D;
 
-  --color-cream: #FBF9F4;
-  --color-cream-light: #FFFDF7;
+  --color-cream: #F5F0E8;
+  --color-cream-light: #FBF9F4;
 
   --font-display: var(--font-fraunces);
   --font-sans: var(--font-outfit);
   --font-mono: var(--font-geist-mono);
 
-  --color-background: #FBF9F4;
+  --color-background: #F5F0E8;
   --color-foreground: #1C1917;
 }
 

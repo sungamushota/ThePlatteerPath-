@@ -127,14 +127,14 @@ export default function Home() {
   return (
     <div className="overflow-hidden">
       {/* Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-stone-200 shadow-sm">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-stone-900/95 backdrop-blur-md border-b border-stone-800 shadow-lg">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 h-16">
-          <span className="font-display text-xl font-semibold text-stone-900 tracking-tight">
+          <span className="font-display text-xl font-semibold text-white tracking-tight">
             The PlatterPath
           </span>
           <div className="flex items-center gap-3">
             <Link href="/login">
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" className="text-stone-300 hover:text-white hover:bg-stone-800">
                 Log In
               </Button>
             </Link>

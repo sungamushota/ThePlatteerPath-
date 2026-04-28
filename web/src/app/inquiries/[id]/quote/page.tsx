@@ -216,17 +216,17 @@ export default function QuoteBuilderPage() {
   return (
     <div className="min-h-screen bg-cream">
       {/* Header */}
-      <header className="sticky top-0 z-40 border-b border-stone-200 bg-white/90 backdrop-blur-md shadow-sm">
+      <header className="sticky top-0 z-40 border-b border-stone-800 bg-stone-900/95 backdrop-blur-md shadow-lg">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
           <div className="flex items-center gap-6">
             <Link href="/dashboard">
-              <span className="font-display text-lg font-semibold tracking-tight text-stone-900">
+              <span className="font-display text-lg font-semibold tracking-tight text-white">
                 The PlatterPath
               </span>
             </Link>
           </div>
           <Link href="/settings">
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" className="text-stone-300 hover:text-white hover:bg-stone-800">
               <Settings className="h-4 w-4" />
             </Button>
           </Link>
