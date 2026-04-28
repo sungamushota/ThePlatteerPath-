@@ -84,7 +84,7 @@ export default async function DashboardPage() {
 
   const recentInquiries = (recentInquiriesData || []) as Inquiry[]
 
-  const bookingLink = `${process.env.NEXT_PUBLIC_APP_URL || 'https://caterflow.app'}/book/${operator.slug}`
+  const bookingLink = `${process.env.NEXT_PUBLIC_APP_URL || 'https://theplatterpath.com'}/book/${operator.slug}`
 
   const statCards = [
     {
@@ -132,7 +132,7 @@ export default async function DashboardPage() {
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
           <div className="flex items-center gap-6">
             <span className="font-display text-lg font-semibold tracking-tight text-stone-900">
-              CaterFlow
+              The PlatterPath
             </span>
             <div className="hidden items-center gap-1 sm:flex">
               <Link href="/dashboard">

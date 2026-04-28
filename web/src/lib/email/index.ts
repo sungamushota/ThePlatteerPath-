@@ -2,7 +2,7 @@ import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
-const FROM_EMAIL = process.env.FROM_EMAIL || 'CaterFlow <notifications@caterflow.app>'
+const FROM_EMAIL = process.env.FROM_EMAIL || 'The PlatterPath <notifications@theplatterpath.com>'
 
 interface NewInquiryEmailProps {
   operatorEmail: string
@@ -28,7 +28,7 @@ export async function sendNewInquiryEmail({
     return
   }
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://caterflow.app'
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://theplatterpath.com'
   const formattedDate = new Date(eventDate).toLocaleDateString('en-US', {
     weekday: 'short',
     month: 'long',
@@ -58,7 +58,7 @@ export async function sendNewInquiryEmail({
           </a>
 
           <p style="color: #A8A29E; font-size: 12px; margin-top: 32px;">
-            — CaterFlow
+            — The PlatterPath
           </p>
         </div>
       `,
@@ -90,7 +90,7 @@ export async function sendQuoteReadyEmail({
     return
   }
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://caterflow.app'
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://theplatterpath.com'
   const formattedDate = new Date(eventDate).toLocaleDateString('en-US', {
     weekday: 'short',
     month: 'long',
@@ -117,7 +117,7 @@ export async function sendQuoteReadyEmail({
           </a>
 
           <p style="color: #A8A29E; font-size: 12px; margin-top: 32px;">
-            — ${operatorName} via CaterFlow
+            — ${operatorName} via The PlatterPath
           </p>
         </div>
       `,

@@ -284,7 +284,7 @@ export default async function QuoteClientViewPage({ params, searchParams }: Page
           <p className="text-xs text-stone-400">
             Powered by{' '}
             <span className="font-display font-semibold text-stone-500">
-              CaterFlow
+              The PlatterPath
             </span>
           </p>
         </div>

@@ -114,7 +114,7 @@ export default function Home() {
       icon: UtensilsCrossed,
       step: '04',
       title: 'You Do Your Thing',
-      desc: 'Focus on creating incredible food. CaterFlow handles the rest.',
+      desc: 'Focus on creating incredible food. The PlatterPath handles the rest.',
     },
   ]
 
@@ -130,7 +130,7 @@ export default function Home() {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-stone-200 shadow-sm">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 h-16">
           <span className="font-display text-xl font-semibold text-stone-900 tracking-tight">
-            CaterFlow
+            The PlatterPath
           </span>
           <div className="flex items-center gap-3">
             <Link href="/login">
@@ -227,7 +227,7 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-16 text-center">
             <h2 className="mb-4 font-display text-3xl font-semibold text-stone-900 sm:text-4xl">
-              How CaterFlow Works
+              How The PlatterPath Works
             </h2>
             <p className="text-lg text-stone-600">
               Four steps. That&apos;s it.
@@ -299,7 +299,7 @@ export default function Home() {
       <footer className="bg-stone-950 py-12 text-stone-600">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 sm:flex-row">
           <span className="font-display text-lg text-stone-400">
-            CaterFlow
+            The PlatterPath
           </span>
           <div className="flex items-center gap-6 text-sm">
             <a

@@ -85,7 +85,7 @@ export default function LoginPage() {
 
         <div className="mb-8">
           <span className="font-display text-2xl font-semibold tracking-tight text-stone-900">
-            CaterFlow
+            The PlatterPath
           </span>
           <h1 className="mt-6 font-display text-3xl font-semibold text-stone-900">
             Welcome back

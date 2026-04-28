@@ -126,7 +126,7 @@ export default async function InquiriesPage({ searchParams }: PageProps) {
           <div className="flex items-center gap-6">
             <Link href="/dashboard">
               <span className="font-display text-lg font-semibold tracking-tight text-stone-900">
-                CaterFlow
+                The PlatterPath
               </span>
             </Link>
             <div className="hidden items-center gap-1 sm:flex">

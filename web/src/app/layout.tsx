@@ -15,7 +15,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "CaterFlow — From Inquiry to Invoice, Effortlessly",
+  title: "The PlatterPath — From Inquiry to Invoice, Effortlessly",
   description:
     "The all-in-one platform for catering operators. One booking link, automatic CRM, professional quotes, and deposit collection.",
 };

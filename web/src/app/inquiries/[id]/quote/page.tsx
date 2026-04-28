@@ -221,7 +221,7 @@ export default function QuoteBuilderPage() {
           <div className="flex items-center gap-6">
             <Link href="/dashboard">
               <span className="font-display text-lg font-semibold tracking-tight text-stone-900">
-                CaterFlow
+                The PlatterPath
               </span>
             </Link>
           </div>

@@ -91,7 +91,7 @@ export default function OnboardingPage() {
                 <Sparkles className="h-10 w-10 text-gold-500" />
               </div>
               <h1 className="mb-3 font-display text-4xl font-semibold text-stone-900">
-                Welcome to CaterFlow
+                Welcome to The PlatterPath
               </h1>
               <p className="mb-10 text-lg text-stone-500">
                 Let&apos;s set up your catering business in 60 seconds.
@@ -143,7 +143,7 @@ export default function OnboardingPage() {
                         YOUR BOOKING LINK
                       </p>
                       <p className="font-mono text-sm text-gold-800">
-                        caterflow.app/book/{slug || '...'}
+                        theplatterpath.com/book/{slug || '...'}
                       </p>
                     </motion.div>
                   )}
