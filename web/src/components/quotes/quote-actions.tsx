@@ -1,10 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { createClient } from '@/lib/supabase/client'
-import { Check, Loader2 } from 'lucide-react'
+import { CreditCard, Loader2 } from 'lucide-react'
 
 interface QuoteActionsProps {
   quoteId: string
@@ -12,55 +10,63 @@ interface QuoteActionsProps {
 }
 
 export function QuoteActions({ quoteId, depositAmount }: QuoteActionsProps) {
-  const router = useRouter()
-  const [isAccepting, setIsAccepting] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
 
-  const handleAccept = async () => {
-    setIsAccepting(true)
+  const handlePay = async () => {
+    setIsLoading(true)
+    setError('')
 
-    const supabase = createClient()
-
-    const { error } = await supabase
-      .from('quotes')
-      .update({
-        status: 'accepted',
-        accepted_at: new Date().toISOString(),
+    try {
+      const res = await fetch('/api/stripe/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quoteId }),
       })
-      .eq('id', quoteId)
 
-    if (error) {
-      console.error('Failed to accept quote:', error)
-      alert('Something went wrong. Please try again.')
-      setIsAccepting(false)
-      return
+      const data = await res.json()
+
+      if (!res.ok) {
+        setError(data.error || 'Something went wrong')
+        setIsLoading(false)
+        return
+      }
+
+      // Redirect to Stripe Checkout
+      window.location.href = data.url
+    } catch {
+      setError('Something went wrong. Please try again.')
+      setIsLoading(false)
     }
-
-    router.refresh()
   }
 
   return (
     <div className="space-y-3">
+      {error && (
+        <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          {error}
+        </div>
+      )}
       <Button
-        onClick={handleAccept}
-        disabled={isAccepting}
+        onClick={handlePay}
+        disabled={isLoading}
         className="w-full"
         size="lg"
       >
-        {isAccepting ? (
+        {isLoading ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Accepting...
+            Redirecting to payment...
           </>
         ) : (
           <>
-            <Check className="mr-2 h-4 w-4" />
-            Accept Quote — ${depositAmount.toFixed(2)} deposit
+            <CreditCard className="mr-2 h-4 w-4" />
+            Pay Deposit — ${depositAmount.toFixed(2)}
           </>
         )}
       </Button>
       <p className="text-center text-xs text-stone-500">
-        By accepting, you agree to the deposit amount above. Payment details
-        will be shared by the caterer.
+        Secure payment powered by Stripe. You&apos;ll be redirected to complete payment.
       </p>
     </div>
   )

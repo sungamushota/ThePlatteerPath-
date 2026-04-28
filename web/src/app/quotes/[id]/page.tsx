@@ -5,6 +5,7 @@ import { QuoteActions } from '@/components/quotes/quote-actions'
 
 interface PageProps {
   params: Promise<{ id: string }>
+  searchParams: Promise<{ payment?: string }>
 }
 
 interface QuoteDetail {
@@ -42,8 +43,9 @@ interface QuoteDetail {
   }[]
 }
 
-export default async function QuoteClientViewPage({ params }: PageProps) {
+export default async function QuoteClientViewPage({ params, searchParams }: PageProps) {
   const { id } = await params
+  const { payment } = await searchParams
   const supabase = await createClient()
 
   const { data, error } = await supabase
@@ -110,10 +112,24 @@ export default async function QuoteClientViewPage({ params }: PageProps) {
   }
 
   const isAccepted = quote.status === 'accepted'
+  const paymentSuccess = payment === 'success'
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gold-50/50 via-cream to-cream">
       <div className="mx-auto max-w-2xl px-4 py-8 sm:py-12">
+        {/* Payment success banner */}
+        {paymentSuccess && !isAccepted && (
+          <div className="mb-6 flex items-center gap-3 rounded-xl border border-gold-200 bg-gold-50 p-4">
+            <Check className="h-5 w-5 text-gold-600" />
+            <div>
+              <p className="font-medium text-gold-800">Payment received!</p>
+              <p className="text-sm text-gold-700">
+                Your deposit is being processed. This page will update shortly.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Header */}
         <div className="mb-8 text-center">
           {operator?.logo_url ? (

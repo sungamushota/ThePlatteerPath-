@@ -25,6 +25,10 @@ Thumbs.db
 *.log
 npm-debug.log*
 
+# Cloudflare
+web/.open-next/
+web/.wrangler/
+
 # Misc
 *.pem
 .vercel
