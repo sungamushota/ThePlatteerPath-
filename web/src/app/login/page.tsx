@@ -1,19 +1,25 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { createClient } from '@/lib/supabase/client'
-import { Loader2, Mail, CheckCircle, ArrowLeft } from 'lucide-react'
+import { Loader2, Mail, CheckCircle, ArrowLeft, Lock } from 'lucide-react'
+
+type Mode = 'magic' | 'password' | 'signup'
 
 export default function LoginPage() {
+  const router = useRouter()
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [mode, setMode] = useState<Mode>('password')
   const [isLoading, setIsLoading] = useState(false)
   const [isSent, setIsSent] = useState(false)
   const [error, setError] = useState('')
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleMagicLink = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setError('')
@@ -31,6 +37,43 @@ export default function LoginPage() {
       setError(error.message)
     } else {
       setIsSent(true)
+    }
+
+    setIsLoading(false)
+  }
+
+  const handlePassword = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError('')
+
+    const supabase = createClient()
+
+    if (mode === 'signup') {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
+      })
+
+      if (error) {
+        setError(error.message)
+      } else {
+        router.push('/onboarding')
+      }
+    } else {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+
+      if (error) {
+        setError(error.message)
+      } else {
+        router.push('/dashboard')
+      }
     }
 
     setIsLoading(false)
@@ -88,47 +131,141 @@ export default function LoginPage() {
             The PlatterPath
           </span>
           <h1 className="mt-6 font-display text-3xl font-semibold text-stone-900">
-            Welcome back
+            {mode === 'signup' ? 'Create account' : 'Welcome back'}
           </h1>
           <p className="mt-2 text-stone-500">
-            Sign in to manage your catering business
+            {mode === 'signup'
+              ? 'Get started with The PlatterPath'
+              : 'Sign in to manage your catering business'}
           </p>
         </div>
 
         <div className="rounded-2xl border border-stone-100 bg-white/80 p-8 shadow-xl shadow-stone-200/20 backdrop-blur-sm">
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <Input
-              label="Email address"
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              error={error}
-              required
-            />
+          {mode === 'magic' ? (
+            <form onSubmit={handleMagicLink} className="space-y-5">
+              <Input
+                label="Email address"
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                error={error}
+                required
+              />
 
-            <Button
-              type="submit"
-              disabled={isLoading}
-              className="w-full"
-              size="lg"
+              <Button
+                type="submit"
+                disabled={isLoading}
+                className="w-full"
+                size="lg"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Mail className="mr-2 h-4 w-4" />
+                    Send Magic Link
+                  </>
+                )}
+              </Button>
+            </form>
+          ) : (
+            <form onSubmit={handlePassword} className="space-y-5">
+              <Input
+                label="Email address"
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <Input
+                label="Password"
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                error={error}
+                required
+              />
+
+              <Button
+                type="submit"
+                disabled={isLoading}
+                className="w-full"
+                size="lg"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    {mode === 'signup' ? 'Creating account...' : 'Signing in...'}
+                  </>
+                ) : (
+                  <>
+                    <Lock className="mr-2 h-4 w-4" />
+                    {mode === 'signup' ? 'Create Account' : 'Sign In'}
+                  </>
+                )}
+              </Button>
+            </form>
+          )}
+
+          {/* Divider */}
+          <div className="my-5 flex items-center gap-3">
+            <div className="h-px flex-1 bg-stone-200" />
+            <span className="text-xs text-stone-400">or</span>
+            <div className="h-px flex-1 bg-stone-200" />
+          </div>
+
+          {/* Toggle method */}
+          {mode === 'magic' ? (
+            <button
+              type="button"
+              onClick={() => { setMode('password'); setError('') }}
+              className="w-full cursor-pointer rounded-xl border border-stone-200 py-3 text-center text-sm font-medium text-stone-600 transition-colors hover:bg-stone-50"
             >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Sending...
-                </>
-              ) : (
-                <>
-                  <Mail className="mr-2 h-4 w-4" />
-                  Send Magic Link
-                </>
-              )}
-            </Button>
-          </form>
+              <Lock className="mr-2 inline h-4 w-4" />
+              Sign in with password
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => { setMode('magic'); setError('') }}
+              className="w-full cursor-pointer rounded-xl border border-stone-200 py-3 text-center text-sm font-medium text-stone-600 transition-colors hover:bg-stone-50"
+            >
+              <Mail className="mr-2 inline h-4 w-4" />
+              Sign in with magic link
+            </button>
+          )}
 
-          <p className="mt-6 text-center text-sm text-stone-400">
-            No password needed — we&apos;ll email you a secure login link.
+          {/* Sign up / Sign in toggle */}
+          <p className="mt-5 text-center text-sm text-stone-400">
+            {mode === 'signup' ? (
+              <>
+                Already have an account?{' '}
+                <button
+                  type="button"
+                  onClick={() => { setMode('password'); setError('') }}
+                  className="cursor-pointer text-gold-600 hover:text-gold-700"
+                >
+                  Sign in
+                </button>
+              </>
+            ) : (
+              <>
+                Don&apos;t have an account?{' '}
+                <button
+                  type="button"
+                  onClick={() => { setMode('signup'); setError('') }}
+                  className="cursor-pointer text-gold-600 hover:text-gold-700"
+                >
+                  Create one
+                </button>
+              </>
+            )}
           </p>
         </div>
       </div>
