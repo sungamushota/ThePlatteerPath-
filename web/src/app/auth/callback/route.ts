@@ -11,17 +11,23 @@ export async function GET(request: Request) {
     const { error } = await supabase.auth.exchangeCodeForSession(code)
 
     if (!error) {
-      // Check if operator record exists
       const { data: { user } } = await supabase.auth.getUser()
 
       if (user) {
+        // Check if this is a password recovery flow
+        const isRecovery = user.recovery_sent_at &&
+          new Date(user.recovery_sent_at).getTime() > Date.now() - 60 * 60 * 1000
+
+        if (isRecovery) {
+          return NextResponse.redirect(`${origin}/reset-password`)
+        }
+
         const { data: operator } = await supabase
           .from('operators')
           .select('id')
           .eq('id', user.id)
           .single()
 
-        // If no operator record, redirect to onboarding
         if (!operator) {
           return NextResponse.redirect(`${origin}/onboarding`)
         }
@@ -31,6 +37,5 @@ export async function GET(request: Request) {
     }
   }
 
-  // Return to login with error
   return NextResponse.redirect(`${origin}/login?error=auth_failed`)
 }

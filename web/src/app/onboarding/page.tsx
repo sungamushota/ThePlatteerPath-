@@ -41,23 +41,26 @@ export default function OnboardingPage() {
       return
     }
 
-    const { data: existing } = await supabase
-      .from('operators')
-      .select('id')
-      .eq('slug', slug)
-      .single()
+    // Find a unique slug — append number if taken
+    let uniqueSlug = slug
+    let suffix = 0
+    while (true) {
+      const { data: existing } = await supabase
+        .from('operators')
+        .select('id')
+        .eq('slug', uniqueSlug)
+        .maybeSingle()
 
-    if (existing) {
-      setError('This business name is already taken. Please choose another.')
-      setIsLoading(false)
-      return
+      if (!existing) break
+      suffix++
+      uniqueSlug = `${slug}-${suffix}`
     }
 
     const { error: insertError } = await supabase.from('operators').insert({
       id: user.id,
       email: user.email!,
       business_name: businessName,
-      slug,
+      slug: uniqueSlug,
     })
 
     if (insertError) {
