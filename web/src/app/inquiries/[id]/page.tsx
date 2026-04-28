@@ -98,6 +98,17 @@ export default async function InquiryDetailPage({ params }: PageProps) {
     ? inquiry.clients[0]
     : inquiry.clients
 
+  // Check if a quote exists for this inquiry
+  const { data: quoteData } = await supabase
+    .from('quotes')
+    .select('id, status, total, deposit_amount')
+    .eq('inquiry_id', id)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle()
+
+  const quote = quoteData as { id: string; status: string; total: number; deposit_amount: number } | null
+
   const formatEventType = (type: string) =>
     type.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
 
@@ -387,16 +398,42 @@ export default async function InquiryDetailPage({ params }: PageProps) {
             {/* Quick Actions */}
             <div className="rounded-2xl border border-gold-200 bg-gold-50/50 p-6">
               <h2 className="mb-2 font-display text-lg font-semibold text-gold-900">
-                Next Step
+                {quote ? 'Quote' : 'Next Step'}
               </h2>
-              <p className="mb-4 text-sm text-gold-700">
-                Ready to send a quote for this event?
-              </p>
-              <Link href={`/inquiries/${inquiry.id}/quote`}>
-                <Button className="w-full">
-                  Create Quote
-                </Button>
-              </Link>
+              {quote ? (
+                <>
+                  <div className="mb-3 space-y-1 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gold-700">Total</span>
+                      <span className="font-medium text-gold-900">${quote.total.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gold-700">Deposit</span>
+                      <span className="font-medium text-gold-900">${quote.deposit_amount.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gold-700">Status</span>
+                      <span className="font-medium capitalize text-gold-900">{quote.status}</span>
+                    </div>
+                  </div>
+                  <Link href={`/quotes/${quote.id}`} target="_blank">
+                    <Button variant="outline" className="w-full">
+                      View Quote
+                    </Button>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <p className="mb-4 text-sm text-gold-700">
+                    Ready to send a quote for this event?
+                  </p>
+                  <Link href={`/inquiries/${inquiry.id}/quote`}>
+                    <Button className="w-full">
+                      Create Quote
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
