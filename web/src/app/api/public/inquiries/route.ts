@@ -102,12 +102,10 @@ export async function POST(request: Request) {
 
       clientId = (newClient as { id: string }).id
     } else {
-      // Update existing client with latest info
+      // Update existing client with any new dietary restrictions
       await supabase
         .from('clients')
         .update({
-          name: `${validatedData.firstName} ${validatedData.lastName}`,
-          phone: validatedData.phone,
           dietary_restrictions: validatedData.dietaryRestrictions,
         })
         .eq('id', clientId)
