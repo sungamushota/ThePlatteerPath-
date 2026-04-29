@@ -52,29 +52,18 @@ export async function POST(request: Request) {
 
     const operatorId = (operator as { id: string }).id
 
-    // Check if client exists (by email or phone)
+    // Check if client exists (by email only)
     let clientId: string | null = null
 
-    const { data: existingClientByEmail } = await supabase
+    const { data: existingClient } = await supabase
       .from('clients')
       .select('id')
       .eq('operator_id', operatorId)
       .eq('email', validatedData.email)
       .maybeSingle()
 
-    if (existingClientByEmail) {
-      clientId = (existingClientByEmail as { id: string }).id
-    } else {
-      const { data: existingClientByPhone } = await supabase
-        .from('clients')
-        .select('id')
-        .eq('operator_id', operatorId)
-        .eq('phone', validatedData.phone)
-        .maybeSingle()
-
-      if (existingClientByPhone) {
-        clientId = (existingClientByPhone as { id: string }).id
-      }
+    if (existingClient) {
+      clientId = (existingClient as { id: string }).id
     }
 
     // Create client if doesn't exist
