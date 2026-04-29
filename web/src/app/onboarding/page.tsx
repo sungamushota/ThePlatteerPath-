@@ -18,8 +18,11 @@ export default function OnboardingPage() {
   const generateSlug = (name: string) => {
     return name
       .toLowerCase()
-      .replace(/[^a-z0-9\s]/g, '')
+      .trim()
+      .replace(/[^a-z0-9\s-]/g, '')
       .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '')
       .slice(0, 50)
   }
 
